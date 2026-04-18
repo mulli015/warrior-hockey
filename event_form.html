@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="row-between">
+        <h1>Teams</h1>
+        {% if current_user and current_user.role in ['admin', 'manager'] %}
+            <a class="button" href="{{ url_for('create_team') }}">Create Team</a>
+        {% endif %}
+    </div>
+    {% for team in teams %}
+        <div class="list-item">
+            <strong><a href="{{ url_for('team_detail', team_id=team.id) }}">{{ team.name }}</a></strong>
+            <div class="muted">{{ team.season }} · {{ team.division }} · {{ team.members|length }} members</div>
+            <div>{{ team.description }}</div>
+        </div>
+    {% else %}
+        <p class="muted">No teams yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
