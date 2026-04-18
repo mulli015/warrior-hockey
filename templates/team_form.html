@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-card card narrow">
+    <h1>Member Registration</h1>
+    <form method="post" class="form-grid">
+        <label>Full name<input type="text" name="full_name" required /></label>
+        <label>Email<input type="email" name="email" required /></label>
+        <label>Password<input type="password" name="password" required /></label>
+        <label>Phone<input type="text" name="phone" /></label>
+        <label>Military branch<input type="text" name="branch" placeholder="Army, Navy, Air Force..." /></label>
+        <button class="button" type="submit">Register</button>
+    </form>
+</div>
+{% endblock %}

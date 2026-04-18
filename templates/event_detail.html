@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-card card narrow">
+    <h1>Create Team</h1>
+    <form method="post" class="form-grid">
+        <label>Team name<input type="text" name="name" required /></label>
+        <label>Season<input type="text" name="season" placeholder="2026" /></label>
+        <label>Division<input type="text" name="division" placeholder="A, B, C2" /></label>
+        <label>Description<textarea name="description" rows="4"></textarea></label>
+        <button class="button" type="submit">Save Team</button>
+    </form>
+</div>
+{% endblock %}

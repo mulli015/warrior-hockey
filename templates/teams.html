@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-header">
+    <p class="kicker">Dashboard</p>
+    <h1>Welcome, {{ current_user.full_name }}</h1>
+    <p class="muted">Role: {{ current_user.role|capitalize }}</p>
+</section>
+
+<section class="grid two">
+    <div class="card">
+        <h2 class="section-title">Your Teams</h2>
+        {% for team in teams %}
+            <div class="list-item">
+                <strong><a href="{{ url_for('team_detail', team_id=team.id) }}">{{ team.name }}</a></strong>
+                <div class="muted">{{ team.division }} · {{ team.season }}</div>
+            </div>
+        {% else %}
+            <p class="muted">You have not joined a team yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Upcoming Events</h2>
+        {% for event in upcoming_events %}
+            <div class="list-item">
+                <strong><a href="{{ url_for('event_detail', event_id=event.id) }}">{{ event.title }}</a></strong>
+                <div class="muted">{{ event.team.name }} · {{ event.start_time.strftime('%b %d, %Y %I:%M %p') }}</div>
+            </div>
+        {% else %}
+            <p class="muted">No events found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="card" style="margin-top: 20px;">
+    <h2 class="section-title">Recent Attendance</h2>
+    <div class="mobile-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Team</th>
+                    <th>Your RSVP</th>
+                    <th>Your Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in my_attendance %}
+                <tr>
+                    <td><a href="{{ url_for('event_detail', event_id=row.event.id) }}">{{ row.event.title }}</a></td>
+                    <td>{{ row.event.team.name }}</td>
+                    <td>{{ rsvp_labels.get(row.registration.status, 'No response') if row.registration else 'No response' }}</td>
+                    <td>{{ attendance_labels.get(row.attendance.status, 'Unmarked') if row.attendance else 'Unmarked' }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="muted">No attendance records yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

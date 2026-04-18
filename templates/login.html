@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="kicker">Veteran hockey operations</p>
+        <h1>Built for Lightning Warriors Hockey.</h1>
+        <p>Manage registrations, build multiple teams, organize games and tournaments, track attendance, and keep members connected with team and event chat.</p>
+        <div class="hero-actions">
+            {% if current_user %}
+                <a class="button" href="{{ url_for('dashboard') }}">Open Dashboard</a>
+            {% else %}
+                <a class="button" href="{{ url_for('register') }}">Create Account</a>
+                <a class="button secondary" href="{{ url_for('login') }}">Member Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card stats-card">
+        <h3 class="section-title">Organization Snapshot</h3>
+        <p><strong>{{ member_count }}</strong> registered members</p>
+        <p><strong>{{ teams|length }}</strong> active teams</p>
+        <p><strong>{{ events|length }}</strong> upcoming events shown</p>
+    </div>
+</section>
+
+<section class="grid two">
+    <div class="card">
+        <h2 class="section-title">Teams</h2>
+        {% for team in teams %}
+            <div class="list-item">
+                <strong><a href="{{ url_for('team_detail', team_id=team.id) }}">{{ team.name }}</a></strong>
+                <div class="muted">{{ team.season }} · {{ team.division }} · {{ team.members|length }} members</div>
+            </div>
+        {% else %}
+            <p class="muted">No teams yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Upcoming Events</h2>
+        {% for event in events %}
+            <div class="list-item">
+                <strong><a href="{{ url_for('event_detail', event_id=event.id) }}">{{ event.title }}</a></strong>
+                <div class="muted">{{ event.team.name }} · {{ event.start_time.strftime('%b %d, %Y %I:%M %p') }}</div>
+                <div class="muted">{{ event.location }}</div>
+            </div>
+        {% else %}
+            <p class="muted">No upcoming events yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
